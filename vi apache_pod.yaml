@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: apache-server-deployment
+  labels:
+    name: apache-server
+spec:
+  containers:
+  - name: private-reg-container
+    image: prabhudoss/techm:techm-apache-server
+    namespace: techm
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: hostvol
+      mountPath: /mnt/samplevol
+  volumes:
+    - name: hostvol
+      persistentVolumeClaim:
+        claimName: test-pv-claim  
+  imagePullSecrets:
+  - name: regcred
